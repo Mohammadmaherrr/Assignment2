@@ -1,0 +1,173 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+    public class bankUser
+    {
+        string firstName;
+        string lastName;
+        string email;
+        int cardNum;
+        int pin;
+        double initialBalance;
+
+
+        public bankUser(string firstName, string lastName, string email, int cardNum, int pin, double initialBalance)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.cardNum = cardNum;
+            this.pin = pin;
+            this.initialBalance = initialBalance;
+        }
+        public void setFirstName(string newFirstName)
+        {
+            firstName = newFirstName;
+        }
+        public void setLastName(string NewLastName)
+        {
+            lastName = NewLastName;
+        }
+        public void setEmail(string newEmail)
+        {
+            email = newEmail;
+        }
+        public void setCardNum(int newCardNum)
+        {
+            cardNum = newCardNum;
+        }
+        public void setPin(int newPin)
+        {
+            pin = newPin;
+        }
+        public void setInitialBalance(double newInitialBalance)
+        {
+            initialBalance = newInitialBalance;
+        }
+        public string getFirstName()
+        {
+            return firstName;
+        }
+        public string getLastName()
+        {
+            return lastName;
+        }
+        public string getEmail()
+        {
+            return email;
+        }
+        public int getNum()
+        {
+            return cardNum;
+        }
+        public int getPin()
+        {
+            return pin;
+        }
+        public double getInitialBalance()
+        {
+            return initialBalance;
+        }
+
+        public static void Main(string[] args)
+        {
+            void printOptions()
+            {
+                Console.WriteLine("Please choose Check,Withdraw,Deposit");
+                Console.WriteLine("1) Check Balance");
+                Console.WriteLine("2) Withdraw");
+                Console.WriteLine("3) Deposit");
+                Console.WriteLine("4) Exit");
+            }
+            void initialBalance(bankUser currentUser)
+            {
+                Console.WriteLine("current balance:  " + currentUser.getInitialBalance());
+            }
+            void withdraw(bankUser currentUser)
+            {
+                Console.WriteLine("Withdraw");
+                double withdraw = Double.Parse(Console.ReadLine());
+                if (currentUser.getInitialBalance() < withdraw)
+                {
+                    Console.WriteLine("Error,not enough balance");
+                }
+                else
+                {
+                    currentUser.setInitialBalance(currentUser.getInitialBalance() - withdraw);
+                    Console.WriteLine("withdraw complete");
+                }
+            }
+            void deposit(bankUser currentUser)
+            {
+                Console.WriteLine("deposit");
+                double deposit = Double.Parse(Console.ReadLine());
+                currentUser.setInitialBalance(deposit);
+                Console.WriteLine("Thank you,your new balance is: " + currentUser.getInitialBalance());
+            }
+            List<bankUser> bankUsers = new List<bankUser>();
+            bankUsers.Add(new bankUser("Mohammad", "Mustafa", "moe@gmailcom", 12345678, 1234, 249.49));
+            bankUsers.Add(new bankUser("ali", "tareq", "ali@gmail.com", 12345679, 2345, 449.03));
+            bankUsers.Add(new bankUser("alaa", "ghaith", "alaa@gmail.com", 12345689, 3456, 889.53));
+            bankUsers.Add(new bankUser("majd", "shamma", "majd@gmail.com", 12345789, 4567, 99.89));
+
+            Console.WriteLine("ATM system");
+            Console.WriteLine("insert debit card: ");
+            String debitCardNum = "";
+            bankUser currentUser;
+
+            while (true)
+            {
+                try
+                {
+                    debitCardNum = Console.ReadLine();
+                currentUser = bankUser.FirstOrDefault(a => a.cardNum == debitCardNum);
+                    if (currentUser != null) { break; }
+                }
+                catch { Console.WriteLine("card not recognized"); }
+            }
+
+            Console.WriteLine("enter your pin: ");
+            int userPin = 0;
+            while (true)
+            {
+                try
+                {
+                    userPin = int.Parse(Console.ReadLine());
+
+                    if (currentUser.getPin() == userPin) { break; }
+                    else { Console.WriteLine("incorrect pin"); }
+                }
+                catch { Console.WriteLine("incorrect pin"); }
+            }
+
+            Console.WriteLine("welcome " + currentUser.getFirstName());
+            int option = 0;
+            do
+            {
+                printOptions();
+                try
+                {
+                    option = int.Parse(Console.ReadLine());
+                }
+                catch { }
+
+                if (option == 1) { initialBalance(currentUser); }
+                else if (option == 2) { withdraw(currentUser); }
+                else if (option == 3) { deposit(currentUser); }
+                else if (option == 4) { break; }
+                else
+                {
+                    option = 0;
+                }
+            }
+            while (option != 4);
+            Console.WriteLine("Exit");
+
+        }
+
+
+
+    
+}
